@@ -82,23 +82,23 @@
     <dependencies>
         <dependency>
             <groupId>com.baidu</groupId>
-            <artifactId>brpc-java-communication</artifactId>
+            <artifactId>brpc-java-communication-proto3</artifactId>
         </dependency>
         <dependency>
             <groupId>com.baidu</groupId>
-            <artifactId>brpc-java</artifactId>
+            <artifactId>brpc-java-proto3</artifactId>
         </dependency>
         <dependency>
             <groupId>com.baidu</groupId>
-            <artifactId>brpc-spring</artifactId>
+            <artifactId>brpc-spring-proto3</artifactId>
         </dependency>
         <dependency>
             <groupId>com.baidu</groupId>
-            <artifactId>brpc-java-naming-zookeeper</artifactId>
+            <artifactId>brpc-java-naming-zookeeper-proto3</artifactId>
         </dependency>
         <dependency>
             <groupId>com.baidu</groupId>
-            <artifactId>brpc-java-naming-consul</artifactId>
+            <artifactId>brpc-java-naming-consul-proto3</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

@@ -51,17 +51,17 @@
     <dependencies>
         <dependency>
             <groupId>com.baidu</groupId>
-            <artifactId>brpc-spring-boot-examples-api</artifactId>
+            <artifactId>brpc-spring-boot-examples-api-proto3</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.baidu</groupId>
-            <artifactId>brpc-spring-boot-starter</artifactId>
+            <artifactId>brpc-spring-boot-starter-proto3</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.baidu</groupId>
-            <artifactId>brpc-java-naming-zookeeper</artifactId>
+            <artifactId>brpc-java-naming-zookeeper-proto3</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

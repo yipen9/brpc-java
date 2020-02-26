@@ -37,7 +37,7 @@
     <dependencies>
         <dependency>
             <groupId>com.baidu</groupId>
-            <artifactId>brpc-java</artifactId>
+            <artifactId>brpc-java-proto3</artifactId>
         </dependency>
 
         <dependency>

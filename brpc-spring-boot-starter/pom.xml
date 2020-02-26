@@ -83,7 +83,7 @@
     <dependencies>
         <dependency>
             <groupId>com.baidu</groupId>
-            <artifactId>brpc-spring</artifactId>
+            <artifactId>brpc-spring-proto3</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

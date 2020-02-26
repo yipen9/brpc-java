@@ -98,12 +98,12 @@
     <dependencies>
         <dependency>
             <groupId>com.baidu</groupId>
-            <artifactId>brpc-spring</artifactId>
+            <artifactId>brpc-spring-proto3</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.baidu</groupId>
-            <artifactId>brpc-spring-boot-starter</artifactId>
+            <artifactId>brpc-spring-boot-starter-proto3</artifactId>
             <version>${project.version}</version>
         </dependency>
 
