@@ -20,11 +20,11 @@
 
     <parent>
         <groupId>com.baidu</groupId>
-        <artifactId>brpc-java-examples</artifactId>
+        <artifactId>brpc-java-examples-proto3</artifactId>
         <version>3.0.0</version>
     </parent>
 
-    <artifactId>brpc-java-core-examples</artifactId>
+    <artifactId>brpc-java-core-examples-proto3</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>

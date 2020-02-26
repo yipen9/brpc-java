@@ -31,10 +31,8 @@ import com.baidu.brpc.protocol.HttpResponse;
 import com.baidu.brpc.protocol.*;
 import com.baidu.brpc.server.ServiceManager;
 import com.google.gson.*;
-import com.google.protobuf.Descriptors;
-import com.google.protobuf.ExtensionRegistry;
 import com.google.protobuf.Message;
-import com.googlecode.protobuf.format.JsonFormat;
+import com.google.protobuf.util.JsonFormat;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -45,8 +43,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -63,19 +59,10 @@ public class HttpRpcProtocol extends AbstractProtocol {
      * 请求的唯一标识id
      */
     private static final String CORRELATION_ID = "correlation-id";
-    private static final JsonFormat jsonPbConverter = new JsonFormat() {
-        protected void print(Message message, JsonGenerator generator) throws IOException {
-            for (Iterator<Map.Entry<Descriptors.FieldDescriptor, Object>> iter =
-                 message.getAllFields().entrySet().iterator(); iter.hasNext(); ) {
-                Map.Entry<Descriptors.FieldDescriptor, Object> field = iter.next();
-                printField(field.getKey(), field.getValue(), generator);
-                if (iter.hasNext()) {
-                    generator.print(",");
-                }
-            }
-            // ignore UnknownFields
-        }
-    };
+    private static final JsonFormat.Printer pb2JsonConverter = JsonFormat.printer()
+            .includingDefaultValueFields();
+    private static final JsonFormat.Parser json2PbConverter = JsonFormat.parser()
+            .ignoringUnknownFields();
     private static final Gson gson = (new GsonBuilder())
             .serializeNulls()
             .disableHtmlEscaping()
@@ -506,7 +493,8 @@ public class HttpRpcProtocol extends AbstractProtocol {
                     String bodyJson = "";
                     if (rpcMethodInfo instanceof ProtobufRpcMethodInfo) {
                         ByteArrayOutputStream out = new ByteArrayOutputStream();
-                        jsonPbConverter.print((Message) body, out, Charset.forName(encoding));
+                        // TODO: Charset.forName(encoding)
+                        bodyJson = pb2JsonConverter.print((Message) body);
                         out.flush();
                         bodyJson = out.toString(encoding);
                     } else {
@@ -668,7 +656,7 @@ public class HttpRpcProtocol extends AbstractProtocol {
                     if (rpcMethodInfo instanceof ProtobufRpcMethodInfo) {
                         ProtobufRpcMethodInfo protobufRpcMethodInfo = (ProtobufRpcMethodInfo) rpcMethodInfo;
                         Message.Builder rspBuilder = protobufRpcMethodInfo.getOutputInstance().newBuilderForType();
-                        jsonPbConverter.merge((String) body, ExtensionRegistry.getEmptyRegistry(), rspBuilder);
+                        json2PbConverter.merge((String) body, rspBuilder);
                         response = rspBuilder.build();
                     } else {
                         response = gson.fromJson((String) body, rpcMethodInfo.getOutputClass());
@@ -700,7 +688,7 @@ public class HttpRpcProtocol extends AbstractProtocol {
                 if (rpcMethodInfo instanceof ProtobufRpcMethodInfo) {
                     ProtobufRpcMethodInfo protobufRpcMethodInfo = (ProtobufRpcMethodInfo) rpcMethodInfo;
                     Message.Builder argBuilder = protobufRpcMethodInfo.getInputInstance().newBuilderForType();
-                    jsonPbConverter.merge((String) body, ExtensionRegistry.getEmptyRegistry(), argBuilder);
+                    json2PbConverter.merge((String) body, argBuilder);
                     args[0] = argBuilder.build();
                 } else {
                     if (rpcMethodInfo.getInputClasses().length == 1) {
