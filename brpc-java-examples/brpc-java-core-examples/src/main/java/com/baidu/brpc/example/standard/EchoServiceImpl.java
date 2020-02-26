@@ -53,7 +53,7 @@ public class EchoServiceImpl implements EchoService {
                 .setMessage(message).build();
         LOG.debug("EchoService.echo, request={}, response={}",
                 request.getMessage(), response.getMessage());
-
+//        System.out.println(request.getMessage());
         return response;
     }
 

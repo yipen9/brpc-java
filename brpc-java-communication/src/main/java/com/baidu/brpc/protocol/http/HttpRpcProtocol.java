@@ -492,11 +492,8 @@ public class HttpRpcProtocol extends AbstractProtocol {
                 case Options.ProtocolType.PROTOCOL_HTTP_JSON_VALUE: {
                     String bodyJson = "";
                     if (rpcMethodInfo instanceof ProtobufRpcMethodInfo) {
-                        ByteArrayOutputStream out = new ByteArrayOutputStream();
                         // TODO: Charset.forName(encoding)
                         bodyJson = pb2JsonConverter.print((Message) body);
-                        out.flush();
-                        bodyJson = out.toString(encoding);
                     } else {
                         bodyJson = gson.toJson(body);
                     }
