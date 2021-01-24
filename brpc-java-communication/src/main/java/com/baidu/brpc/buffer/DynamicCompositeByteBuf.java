@@ -36,8 +36,8 @@ import java.util.Iterator;
  * because netty {@link ByteBuf} has satisfied already.
  */
 public class DynamicCompositeByteBuf {
-    private ArrayDeque<ByteBuf> buffers;
-    private int readableBytes;
+    private ArrayDeque<ByteBuf> buffers;    //保留待读读ByteBuf
+    private int readableBytes;          //可读读byte字节数
 
     public DynamicCompositeByteBuf() {
         this.buffers = new ArrayDeque<ByteBuf>(1);
@@ -78,14 +78,14 @@ public class DynamicCompositeByteBuf {
         return readableBytes;
     }
 
-    public boolean isEmpty() {
+    public boolean isEmpty() {  //是否为空
         return readableBytes == 0;
     }
 
     /**
      * @return whether this {@link DynamicCompositeByteBuf} has a backing array
      */
-    public boolean hasArray() {
+    public boolean hasArray() { //byteBuf的hasArray
         return buffers.size() == 1 && buffers.peekFirst().hasArray();
     }
 
@@ -95,7 +95,7 @@ public class DynamicCompositeByteBuf {
      */
     public byte[] array() throws UnsupportedOperationException {
         if (hasArray()) {
-            return buffers.peekFirst().array();
+            return buffers.peekFirst().array(); //返沪byte数组
         }
         throw new UnsupportedOperationException();
     }
@@ -177,18 +177,18 @@ public class DynamicCompositeByteBuf {
 
         ByteBuf first = buffers.peek();
         int firstLen = first.readableBytes();
-        if (length == firstLen) {
+        if (length == firstLen) {   //如果要读取的length就等于第一个buffer的长度，直接返回
             readableBytes -= length;
             return buffers.removeFirst();
-        } else if (length < firstLen) {
+        } else if (length < firstLen) { //小于第一个，则读取，在返回
             ByteBuf newBuf = first.readRetainedSlice(length);
             readableBytes -= length;
             return newBuf;
-        } else {
+        } else {    //读取的长度大于第一个的
             int capacity = 2;
             ByteBuf[] byteBufs = new ByteBuf[capacity];
             int i = 0;
-            while (length > 0 && readableBytes > 0) {
+            while (length > 0 && readableBytes > 0) {   //循环一直看，是否有readableBytes
                 ByteBuf newBuf;
                 if (firstLen > length) {
                     newBuf = first.readRetainedSlice(length);

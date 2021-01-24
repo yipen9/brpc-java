@@ -77,7 +77,7 @@ public class BaiduRpcProtocol extends AbstractProtocol {
     private static final ServiceManager serviceManager = ServiceManager.getInstance();
 
     @Override
-    public ByteBuf encodeRequest(Request request) throws Exception {
+    public ByteBuf encodeRequest(Request request) throws Exception {    //解析request
         BaiduRpcEncodePacket packet = new BaiduRpcEncodePacket();
         BaiduRpcProto.RpcMeta.Builder metaBuilder = BaiduRpcProto.RpcMeta.newBuilder();
         metaBuilder.setCorrelationId(request.getCorrelationId());
