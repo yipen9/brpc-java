@@ -61,7 +61,7 @@ public class CommunicationClient {
     private AtomicBoolean stop = new AtomicBoolean(false);
 
     public CommunicationClient(
-            ServiceInstance serviceInstance,
+            ServiceInstance serviceInstance,    //service接口
             CommunicationOptions communicationOptions,
             List<Interceptor> interceptors) {
         this.serviceInstance = serviceInstance;

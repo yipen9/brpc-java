@@ -6,7 +6,7 @@ public class BrpcChannelFactory {
     public static BrpcChannel createChannel(ServiceInstance serviceInstance,
                                             CommunicationOptions communicationOptions) {
         ChannelType channelType = communicationOptions.getChannelType();
-        if (channelType == ChannelType.POOLED_CONNECTION) {
+        if (channelType == ChannelType.POOLED_CONNECTION) { //缓存池
             return new BrpcPooledChannel(serviceInstance, communicationOptions);
         } else if (channelType == ChannelType.SINGLE_CONNECTION) {
             return new BrpcSingleChannel(serviceInstance, communicationOptions);

@@ -60,7 +60,7 @@ public class RpcClientHandler extends SimpleChannelInboundHandler<Object> {
                 ClientWorkTask task = new ClientWorkTask(packet, channelInfo.getProtocol(), ctx);
                 tasks[i++] = task;
                 if (i == 64) {
-                    workThreadPool.submit(tasks, 0, i);
+                    workThreadPool.submit(tasks, 0, i);     //如果读取一次很多，那么64次提交一次
                     i = 0;
                 }
             } catch (NotEnoughDataException ex1) {
@@ -73,7 +73,7 @@ public class RpcClientHandler extends SimpleChannelInboundHandler<Object> {
         }
 
         if (i > 0) {
-            workThreadPool.submit(tasks, 0, i);
+            workThreadPool.submit(tasks, 0, i);  //最后提交一次
         }
 
     }

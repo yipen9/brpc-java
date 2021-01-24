@@ -38,7 +38,7 @@ public abstract class AbstractBrpcChannel implements BrpcChannel {
         this.serviceInstance = serviceInstance;
         this.communicationOptions = communicationOptions;
         this.bootstrap = bootstrapManager.getOrCreateBootstrap(
-                serviceInstance.getServiceName(), communicationOptions);
+                serviceInstance.getServiceName(), communicationOptions);//创建客户端bootstrap
     }
 
     @Override

@@ -141,7 +141,7 @@ public class RpcClient {
         setServiceInterface(clazz, null);
     }
 
-    public void setServiceInterface(Class clazz, NamingOptions namingOptions) {
+    public void setServiceInterface(Class clazz, NamingOptions namingOptions) { //设置服务的接口
         if (this.serviceInterface != null) {
             throw new RpcException("serviceInterface must not be set repeatedly, please use another RpcClient");
         }
@@ -151,7 +151,7 @@ public class RpcClient {
             // if it is async interface, we should subscribe the sync interface
             this.serviceInterface = clazz.getInterfaces()[0];
         }
-        if (StringUtils.isNoneBlank(namingServiceUrl)) {
+        if (StringUtils.isNoneBlank(namingServiceUrl)) {    //有名称的服务url
             this.namingServiceProcessor = new NamingServiceProcessor(
                     namingServiceUrl, serviceInterface, namingOptions,
                     rpcClientOptions.getHealthyCheckIntervalMillis(), communicationOptions);

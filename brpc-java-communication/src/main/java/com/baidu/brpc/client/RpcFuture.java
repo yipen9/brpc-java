@@ -102,12 +102,12 @@ public class RpcFuture<T> implements AsyncAwareFuture<T> {
         }
 
         timeout.cancel();
-        latch.countDown();
+        latch.countDown();  //latch下掉
         isDone = true;
     }
 
     public void handleResponse(Response response) {
-        handleConnection(response);
+        handleConnection(response); //处理response
         // invoke the chain of interceptors when async scene
         if (isAsync() && CollectionUtils.isNotEmpty(interceptors)) {
             int length = interceptors.size();
@@ -116,12 +116,12 @@ public class RpcFuture<T> implements AsyncAwareFuture<T> {
             }
         }
 
-        if (isAsync()) {
+        if (isAsync()) {    //是否是异步的
             setRpcContext();
             if (response == null) {
                 callback.fail(new RpcException(RpcException.SERVICE_EXCEPTION, "internal error"));
             } else if (response.getResult() != null) {
-                callback.success((T) response.getResult());
+                callback.success((T) response.getResult());     //response有值，表示
             } else {
                 callback.fail(response.getException());
             }
@@ -164,7 +164,7 @@ public class RpcFuture<T> implements AsyncAwareFuture<T> {
     @Override
     public T get(long timeout, TimeUnit unit) {
         try {
-            boolean ret = latch.await(timeout, unit);
+            boolean ret = latch.await(timeout, unit);   //通过countdownlatch
             if (!ret) {
                 try {
                     if (request.getChannel() != null && request.getChannel().remoteAddress() instanceof InetSocketAddress) {
